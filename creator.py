@@ -2,35 +2,71 @@ import csv
 import get_names
 import read_csv
 
-# fNames = []
-# lNames = []
-# divisions = []
+#CONSTANTS
+FIRST_FILE_NAME = "competitors_first_event.csv"
+SECOND_FILE_NAME = "competitors_second_event.csv"
+THIRD_FILE_NAME = "competitors_third_event.csv"
 
-# fNames, lNames = get_names.getUserNames()
+#GETTING THE ENROLLMENTS FOR EACH EVENT
+FIRST_EVENT, SECOND_EVENT, THIRD_EVENT = read_csv.read_csv()
 
-FIRST_EVENT, SECOND_EVENT = read_csv.read_csv()
-
-def write_csv():
-    with open('competitors.csv', 'w') as csvfile:
+#These three are responsible for writing to three different files. The process is roughly the same. The names of ea file are different
+def write_first():
+    with open(FIRST_FILE_NAME, 'w') as csvfile:
         filewriter = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL, lineterminator='\n')
 
-        if(get_num_rows(FIRST_EVENT) == 2):
-            filewriter.writerow(['First Name', 'Last Name'])
-            for row in FIRST_EVENT:
-                filewriter.writerow(row)
-                print(row)
-        elif(get_num_rows(FIRST_EVENT) == 3):
-            filewriter.writerow(['First Name', 'Last Name', 'Division'])
-            for row in FIRST_EVENT:
-                filewriter.writerow(row)
-                print(row)
+        write_data(FIRST_EVENT, filewriter)
 
-        ##Loop through both arrays and add their eq values to rows in csv
-        # for i, k in zip(fNames, lNames):
-        #     filewriter.writerow([i, k])
-        #     print('' + i + ',' + k)
+def write_second():
+    with open(SECOND_FILE_NAME, 'w') as csvfile:
+        filewriter = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL, lineterminator='\n')
 
-def get_num_rows(l):
+        write_data(SECOND_EVENT, filewriter)
+
+def write_third():
+    with open(THIRD_FILE_NAME, 'w') as csvfile:
+        filewriter = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL, lineterminator='\n')
+
+        write_data(THIRD_EVENT, filewriter)
+
+#Return the number of columns in a list
+#PARAM: l - Given list
+#RETURN: Number of COLUMNS in list
+def get_num_cols(l):
+    if(len(l) == 0):
+        return 0
+
     return len(l[0])
 
-write_csv()
+#Writes data to a file given a filewriter object
+#PARAM: event - The list of names for that specific event
+#PARAM: fw - The csv.writer object
+#Return: writes rows to filewriter object to write to file
+def write_data(event, fw):
+
+    if(get_num_cols(event) == 2):
+        fw.writerow(['First Name', 'Last Name'])
+        for row in event:
+            fw.writerow(row)
+
+    if(get_num_cols(event) == 3):
+        fw.writerow(['First Name', 'Last Name', 'Division'])
+        for row in event:
+            fw.writerow(row)
+
+#Runs the program
+def runner():
+
+    if len(FIRST_EVENT) > 0:
+        write_first()
+    
+    if len(SECOND_EVENT) > 0:
+        write_second()
+    
+    if len(THIRD_EVENT) > 0:
+        write_third()
+
+    print("Successfully wrote all athletes to files")
+
+    return
+runner()
