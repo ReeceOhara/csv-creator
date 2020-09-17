@@ -1,9 +1,18 @@
 import csv
 
+#Global const
+TIME_INDICATOR = "X"
+FIRST_EVENT_DIVISION = "1pm"
+SECOND_EVENT_DIVISION = "2pm"
+THIRD_EVENT_DIVISION = "3pm"
+FILE_NAME = "enrolled.csv"
+
+#Reads in specific CSV file and returns three lists corresponding to whichever event an athlete is signed up for
 def read_csv():
     #Making the lists
-    two_enr = []
-    three_enr = []
+    first_event = []
+    second_event = []
+    third_event = []
 
     #CSV file layout:
     #id, full name, date time, date time
@@ -12,39 +21,43 @@ def read_csv():
     #Desired CSV layout:
     #first, last, division (time)
 
-    with open('enrolled.csv', 'r') as csvfile:
+    with open(FILE_NAME, 'r') as csvfile:
         filereader = csv.reader(csvfile, delimiter=',', quotechar='"', skipinitialspace=True)
 
+        #Skip header
         next(filereader)
         for row in filereader:
-            # names.append(row[1].split())
-            time_ind = row.index("X") - 2
+            time_ind = row.index("X") - 1
 
+            #Add name to correct event list
             if(time_ind == 1):
-                two_enr.append(row[1].split(sep=", "))
-            else:
-                three_enr.append(row[1].split(sep=", "))
+                first_event.append(row[1].split(sep=", "))
+            if(time_ind == 2):
+                second_event.append(row[1].split(sep=", "))
+            if(time_ind == 3):
+                third_event.append(row[1].split(sep=', '))
     
-    rev_names(two_enr)
-    add_div(two_enr, "2pm")
-    rev_names(three_enr)
-    add_div(three_enr, "3pm")
+    #Reverse names to get first,last and add divisons
+    rev_names(first_event)
+    add_div(first_event, FIRST_EVENT_DIVISION)
+    rev_names(second_event)
+    add_div(second_event, SECOND_EVENT_DIVISION)
+    rev_names(third_event)
+    add_div(third_event, THIRD_EVENT_DIVISION)
 
-    #Testing
-    # print("2pm:")
-    # for i in two_enr:
-    #     print(i)
+    return first_event, second_event, third_event
 
-    # print("3pm:")
-    # for k in three_enr:
-    #     print(k)
-
-    return two_enr, three_enr
-
+#Reverses the elements in ea row of a 2D list
+#PARAM: l - Given list to reverse values of
 def rev_names(l):
     for row in l:
         row.reverse()
 
+#Adds the 'Division' header to each row in list
+#PARAM: l - Given list
+#PARAM: s - String object to add to each element
 def add_div(l, s):
     for row in l:
         row.append(s)
+
+read_csv()
