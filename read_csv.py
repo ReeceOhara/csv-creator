@@ -2,10 +2,10 @@ import csv
 
 #Global const
 TIME_INDICATOR = "X"
-FIRST_EVENT_DIVISION = "1pm"
-SECOND_EVENT_DIVISION = "2pm"
-THIRD_EVENT_DIVISION = "3pm"
-FILE_NAME = "enrolled.csv"
+FIRST_EVENT_DIVISION = "12+yrs"
+SECOND_EVENT_DIVISION = "12+yrs"
+THIRD_EVENT_DIVISION = "12+yrs"
+FILE_NAME = "enroll12.csv"
 
 #Reads in specific CSV file and returns three lists corresponding to whichever event an athlete is signed up for
 def read_csv():
@@ -24,8 +24,6 @@ def read_csv():
     with open(FILE_NAME, 'r') as csvfile:
         filereader = csv.reader(csvfile, delimiter=',', quotechar='"', skipinitialspace=True)
 
-        #Skip header
-        next(filereader)
         for row in filereader:
             time_ind = row.index("X") - 1
 

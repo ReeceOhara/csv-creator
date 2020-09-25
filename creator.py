@@ -3,9 +3,9 @@ import get_names
 import read_csv
 
 #CONSTANTS
-FIRST_FILE_NAME = "competitors_first_event.csv"
-SECOND_FILE_NAME = "competitors_second_event.csv"
-THIRD_FILE_NAME = "competitors_third_event.csv"
+FIRST_FILE_NAME = "ace_first_event.csv"
+SECOND_FILE_NAME = "ace_second_event.csv"
+THIRD_FILE_NAME = "ace_third_event.csv"
 
 #GETTING THE ENROLLMENTS FOR EACH EVENT
 FIRST_EVENT, SECOND_EVENT, THIRD_EVENT = read_csv.read_csv()
